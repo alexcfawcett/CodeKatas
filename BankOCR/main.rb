@@ -1,3 +1,4 @@
+#http://code.joejag.com/coding-dojo-bank-ocr/
 require './code'
 
 #open and read file
