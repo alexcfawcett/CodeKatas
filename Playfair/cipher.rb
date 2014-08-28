@@ -74,8 +74,23 @@ class Cipher
 
 
 	def decrypt_message(message)
+		clearText = ""
 		decryptDiagraphs = message.scan(/../)
-		
+		decryptDiagraphs.each do |ecdgph|
+			chars = ecdgph.scan(/./)
+			firstChar =  @cipherHash[chars[0]]
+			secondChar = @cipherHash[chars[1]]
+			if is_in_same_column?(firstChar, secondChar)
+				 clearText << get_decrypted_column_letter(firstChar.intValue) + get_decrypted_column_letter(secondChar.intValue)
+			elsif is_in_same_row?(firstChar, secondChar)
+				#letters are in same row
+				 clearText << get_decrypted_row_letter(firstChar.intValue) + get_decrypted_row_letter(secondChar.intValue)
+			else
+				#letters are in rectange
+				clearText << get_encrypted_rect_letter(firstChar, secondChar) + get_encrypted_rect_letter(secondChar, firstChar)
+			end
+		end
+		clearText
 
 	end
 
@@ -94,12 +109,32 @@ class Cipher
 		end
 	end
 
+	def get_decrypted_column_letter(initialPosition)
+		newPosition = initialPosition - 5
+		if newPosition > 1
+			get_letter_for_position(newPosition)
+		else
+			get_letter_for_position(initialPosition + 20)
+		end
+	end
+
+
 	def is_in_same_row?(firstInt, secondInt)
 		firstInt.y == secondInt.y
 	end
 
+	def get_decrypted_row_letter(initialPosition)
+		
+		if (initialPosition - 1) % 5 == 0
+			get_letter_for_position(initialPosition + 4)
+		else	
+			get_letter_for_position(initialPosition - 1)
+		end
+
+	end
+
 	def get_encrypted_row_letter(initialPosition)
-		puts initialPosition
+		
 		if initialPosition % 5 == 0
 
 			#if divisible by 5 then its last in row, wrap round by taking four
@@ -111,6 +146,10 @@ class Cipher
 	end
 
 	def get_encrypted_rect_letter(letter_to_encrypt, second_letter)
+		get_letter_for_coordinate(second_letter.x, letter_to_encrypt.y)
+	end
+
+	def get_decrypted_rect_letter(letter_to_encrypt, second_letter)
 		get_letter_for_coordinate(second_letter.x, letter_to_encrypt.y)
 	end
 
