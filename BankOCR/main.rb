@@ -30,14 +30,14 @@ end
 
 
 #User Story 1
-=begin
+
 codes.each do |code|
 	
 	puts code.raw_value
 	puts code.to_s
 
 end
-=end
+
 
 
 #User Story 2
@@ -58,12 +58,13 @@ codes.each do |code|
 end
 =end
 
-#User Story 4
 
+#User Story 4
+=begin
 codes.each do |code|
 	puts code.format_with_error_resolution
 end
-
+=end
 
 
 
