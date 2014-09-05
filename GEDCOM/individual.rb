@@ -1,7 +1,7 @@
 require './parsedObject'
 
 class Individual < ParsedObject
-	attr_accessor :id, :firstNames, :surname, :sex, :familyId, :dateChanged
+	attr_accessor :firstNames, :surname, :sex, :familyId, :dateChanged
 
 	def initialize
 		@firstNames = ""

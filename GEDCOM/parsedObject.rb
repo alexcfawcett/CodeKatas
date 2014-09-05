@@ -1,6 +1,6 @@
 class ParsedObject
 
-	attr_accessor :lines
+	attr_accessor :lines, :id
 
 	def initialize
 		@lines = []

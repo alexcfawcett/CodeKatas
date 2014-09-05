@@ -1,12 +1,14 @@
 require './header'
 require './parsedObject'
 require './individual'
+require './family'
 
 class Parent < ParsedObject
 
 		def initialize(fileToParse)
 			@fileToParse = fileToParse
 			@individuals = []
+			@families = []
 		end
 
 		def parse
@@ -29,7 +31,9 @@ class Parent < ParsedObject
 			end
 
 
+=begin
 			@individuals.each do |indiv|
+				puts "id=" + indiv.id
 				puts "surname= " + indiv.surname
 				puts "sex= " + indiv.sex
 				puts "date= " + indiv.dateChanged
@@ -40,7 +44,15 @@ class Parent < ParsedObject
 
 			end
 
+
+			@families.each do |fam|
+				puts fam.id
+				puts fam.husbandId
+				puts fam.wifeId
+				puts fam.childIds
+			end
 		end
+=end
 
 		def object_for_line(line)
 			prefix = line_prefix(line)
@@ -62,8 +74,14 @@ class Parent < ParsedObject
 			case prefix
 			when "INDI"
 				indiv = Individual.new
+				indiv.id = line_prefix(line)
 				@individuals[@individuals.length] = indiv
 				indiv
+			when "FAM"
+				family = Family.new
+				family.id = line_prefix(line)
+				@families[@families.length] = family
+				family
 			else
 				Individual.new
 			end
