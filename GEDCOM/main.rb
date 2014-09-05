@@ -1,5 +1,5 @@
-require './parser'
+require './parent'
 
-parser = Parser.new('sample.ged')
+parent = Parent.new('sample.ged')
 
-parser.parse
+parent.parse
