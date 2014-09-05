@@ -1,4 +1,5 @@
 require './parsedObject'
+require 'xml'
 
 class Individual < ParsedObject
 	attr_accessor :firstNames, :surname, :sex, :familyId, :dateChanged
@@ -26,6 +27,14 @@ class Individual < ParsedObject
 			when "DATE"
 				 @dateChanged = get_line_split_value(line, 2) + " " + get_line_split_value(line, 3) + " " + get_line_split_value(line, 4)
 		end 
+	end
+
+	def set_attributes(element)
+		element["id"] = @id
+		element["firstNames"] = @firstNames
+		element["surname"] = @surname
+		element["sex"] = @sex
+		element["dateChanged"] = @dateChanged
 	end
 
 end

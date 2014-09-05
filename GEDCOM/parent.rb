@@ -2,6 +2,7 @@ require './header'
 require './parsedObject'
 require './individual'
 require './family'
+require 'xml'
 
 class Parent < ParsedObject
 
@@ -27,8 +28,9 @@ class Parent < ParsedObject
 				else
 					currentObj.process_line(line)
 				end
-
 			end
+
+		end
 
 
 =begin
@@ -87,4 +89,59 @@ class Parent < ParsedObject
 			end
 
 		end
+
+		def print_xml
+
+			printFams = @families.dup
+			printInds = @individuals.dup
+
+			xml = XML::Document.new
+			xml.root = XML::Node.new("data")
+			famlilies = XML::Node.new("families")
+
+			printFams.each do |fam|
+				famElement = XML::Node.new("family")
+				if(fam.husbandId != nil)
+					husElement = XML::Node.new("husband")
+					get_individual(fam.husbandId).set_attributes(husElement)
+					famElement << husElement
+				end
+
+				if(fam.wifeId != nil)
+					wifeElement = XML::Node.new("wife")
+					get_individual(fam.wifeId).set_attributes(wifeElement)
+					famElement << wifeElement
+				end
+
+				if fam.childIds.count > 0
+					children = XML::Node.new("children")
+				end
+
+				fam.childIds.each do |chId|
+					child = XML::Node.new("child") 
+					get_individual(chId).set_attributes(child)
+					children << child
+				end
+
+				if fam.childIds.count > 0
+					famElement << children
+				end
+
+				famlilies << famElement
+			end
+			xml.root << famlilies
+			puts xml.to_s
+
+		end
+
+		def get_individual(id)
+			retval = nil
+			@individuals.each do |indiv| 
+				if indiv.id == id 
+					retval = indiv
+				end
+			end
+			retval
+		end
+
 end
