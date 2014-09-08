@@ -31,7 +31,7 @@ class Parent < ParsedObject
 			end
 
 
-
+=begin
 
 
 			@individuals.each do |indiv|
@@ -53,7 +53,7 @@ class Parent < ParsedObject
 				puts fam.wifeId
 				puts fam.childIds
 			end
-
+=end
 		end
 
 
@@ -75,7 +75,6 @@ class Parent < ParsedObject
 
 		def object_for_value(line)
 			prefix = line_value(line)
-			puts prefix + "adsad"
 			case prefix
 			when "INDI"
 				indiv = Individual.new
@@ -86,7 +85,6 @@ class Parent < ParsedObject
 				family = Family.new
 				family.id = line_prefix(line)
 				@families[@families.length] = family
-
 				family
 			else
 				Individual.new
@@ -113,7 +111,6 @@ class Parent < ParsedObject
 				famElement = XML::Node.new("family")
 				if(fam.husbandId != nil)
 					husElement = XML::Node.new("husband")
-					puts fam.husbandId
 					get_individual(fam.husbandId).set_attributes(husElement)
 					famElement << husElement
 				end
@@ -141,6 +138,7 @@ class Parent < ParsedObject
 				famlilies << famElement
 			end
 			xml.root << famlilies
+
 			puts xml.to_s
 
 		end
