@@ -16,7 +16,14 @@ class ParsedObject
 	end
 
 	def line_value(line)
-		get_line_split_value(line, 2)
+		 value = ""
+		 valueStart = 2
+		 valueEnd = get_line_split_count(line) 
+		 while valueStart < valueEnd
+		 	value = value + get_line_split_value(line, valueStart) + " "
+		 	valueStart += 1
+		 end
+		value.strip
 	end 
 
 

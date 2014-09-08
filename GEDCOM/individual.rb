@@ -22,6 +22,8 @@ class Individual < ParsedObject
 				 	@firstNames = @firstNames + get_line_split_value(line, firstNameStart) + " "
 				 	firstNameStart += 1
 				 end
+				 @firstNames = @firstNames.strip
+
 			when "FAMS"
 				 @familyId = line_value(line)
 			when "DATE"

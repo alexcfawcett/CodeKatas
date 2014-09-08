@@ -22,7 +22,7 @@ class Parent < ParsedObject
 				if line[0] == '0'
 					#new object
 					if(currentObj != nil)
-						#sputs currentObj.lines.length
+						
 					end
 					currentObj = object_for_line(line)
 				else
@@ -30,10 +30,10 @@ class Parent < ParsedObject
 				end
 			end
 
-		end
 
 
-=begin
+
+
 			@individuals.each do |indiv|
 				puts "id=" + indiv.id
 				puts "surname= " + indiv.surname
@@ -53,8 +53,10 @@ class Parent < ParsedObject
 				puts fam.wifeId
 				puts fam.childIds
 			end
+
 		end
-=end
+
+
 
 		def object_for_line(line)
 			prefix = line_prefix(line)
@@ -73,6 +75,7 @@ class Parent < ParsedObject
 
 		def object_for_value(line)
 			prefix = line_value(line)
+			puts prefix + "adsad"
 			case prefix
 			when "INDI"
 				indiv = Individual.new
@@ -83,6 +86,7 @@ class Parent < ParsedObject
 				family = Family.new
 				family.id = line_prefix(line)
 				@families[@families.length] = family
+
 				family
 			else
 				Individual.new
@@ -93,16 +97,23 @@ class Parent < ParsedObject
 		def print_xml
 
 			printFams = @families.dup
-			printInds = @individuals.dup
 
 			xml = XML::Document.new
 			xml.root = XML::Node.new("data")
+
+			header = XML::Node.new("header")
+			header["name"] = @header.source.name
+			header["version"] = @header.source.version
+			header["company"] = @header.source.company
+			xml.root << header
+	
 			famlilies = XML::Node.new("families")
 
 			printFams.each do |fam|
 				famElement = XML::Node.new("family")
 				if(fam.husbandId != nil)
 					husElement = XML::Node.new("husband")
+					puts fam.husbandId
 					get_individual(fam.husbandId).set_attributes(husElement)
 					famElement << husElement
 				end
